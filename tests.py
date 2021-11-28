@@ -1,9 +1,10 @@
 from app import Totango
 from datetime import date
 
+api = Totango('testing.user+230_usage@totango.com', 'TestingUser1234')
+
 
 def test_touchpoint():
-    api = Totango('testing.user+230_usage@totango.com', 'TestingUser1234')
     data = {'account': 'test_1', 'subject': 'test_1', 'description': 'test_1'}
     touchpoint = api.create_touchpoint(**data)
     assert touchpoint, 'TP not created'
@@ -12,7 +13,6 @@ def test_touchpoint():
 
 
 def test_task():
-    api = Totango('testing.user+230_usage@totango.com', 'TestingUser1234')
     data = {
         'description': 'test_task_1',
         'assignee': 'testing.user+230_usage@totango.com',
