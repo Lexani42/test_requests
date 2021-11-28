@@ -60,14 +60,11 @@ class Totango:
             headers=self.header,
         )
         return (
-            (
-                i
-                for i in resp.json()
-                if i["type"] == "note"
-                and int(i["note_content"]["note_id"]) == int(touchpoint_id)
-            )
-            .__next__()
-        )
+            i
+            for i in resp.json()
+            if i["type"] == "note"
+            and int(i["note_content"]["note_id"]) == int(touchpoint_id)
+        ).__next__()
 
     def create_task(
         self,
