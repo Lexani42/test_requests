@@ -97,7 +97,6 @@ class Totango:
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v3/tasks?account_id={account}",
             headers=self.header,
         )
-        # print(resp.json())
         for i in resp.json():
             if i["id"] == task_id:
                 return i
