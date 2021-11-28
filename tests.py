@@ -6,9 +6,9 @@ def test_touchpoint():
     api = Totango('testing.user+230_usage@totango.com', 'TestingUser1234')
     data = {'account': 'test_1', 'subject': 'test_1', 'description': 'test_1'}
     touchpoint = api.create_touchpoint(**data)
-    assert touchpoint
-    assert touchpoint["properties"]["subject"] == data['subject']
-    assert touchpoint["note_content"]["text"] == data['description']
+    assert touchpoint, 'TP not created'
+    assert touchpoint["properties"]["subject"] == data['subject'], 'subject is wrong'
+    assert touchpoint["note_content"]["text"] == data['description'], 'description is wrong'
 
 
 def test_task():
@@ -22,6 +22,6 @@ def test_task():
         'to_date': date(2022, 1, 1)
     }
     task = api.create_task(**data)
-    assert task
-    assert task['title'] == data['title']
-    assert task['description'] == data['description']
+    assert task, 'task not created'
+    assert task['title'] == data['title'], 'title is wrong'
+    assert task['description'] == data['description'], 'description is wrong'
