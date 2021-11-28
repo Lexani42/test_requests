@@ -4,7 +4,7 @@ from datetime import date
 
 
 class Totango:
-    def __init__(self, email, password):
+    def __init__(self, email: str, password: str):
         self.session = requests.Session()
         self.email = email
         self.password = password
@@ -51,10 +51,10 @@ class Totango:
         touchpoint_id = response.json()["note"]["id"]
         time.sleep(1)
         return self.check_if_touchpoingt_exist(
-            touchpoint_id, account, subject, description
+            touchpoint_id, account
         )
 
-    def check_if_touchpoingt_exist(self, touchpoint_id, account, subject, content):
+    def check_if_touchpoingt_exist(self, touchpoint_id: int, account: str,):
         resp = self.session.get(
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v2/events/?account_id={account}&include_formatting=true",
             headers=self.header,
@@ -63,7 +63,7 @@ class Totango:
             if i["type"] == "note":
                 if int(i["note_content"]["note_id"]) == int(touchpoint_id):
                     return i
-        return False
+        return None
 
     def create_task(
         self,
@@ -90,9 +90,9 @@ class Totango:
             headers=self.header,
         )
         task_id = resp.json()["id"]
-        return self.check_if_task_created(account, task_id, title)
+        return self.check_if_task_created(account, task_id)
 
-    def check_if_task_created(self, account: str, task_id: int, title: str):
+    def check_if_task_created(self, account: str, task_id: int):
         resp = self.session.get(
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v3/tasks?account_id={account}",
             headers=self.header,
@@ -100,4 +100,4 @@ class Totango:
         for i in resp.json():
             if i["id"] == task_id:
                 return i
-        return False
+        return None
