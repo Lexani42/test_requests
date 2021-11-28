@@ -59,12 +59,8 @@ class Totango:
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v2/events/?account_id={account}&include_formatting=true",
             headers=self.header,
         )
-        try:
-            return (
-                i for i in resp.json() if i["type"] == "note" and int(i["note_content"]["note_id"]) == int(touchpoint_id)
-            ).__next__()
-        except StopIteration:
-            return None
+        return next(
+            (i for i in resp.json() if i["type"] == "note" and int(i["note_content"]["note_id"]) == int(touchpoint_id)), [])
 
     def create_task(
         self,
@@ -98,7 +94,4 @@ class Totango:
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v3/tasks?account_id={account}",
             headers=self.header,
         )
-        try:
-            return (i for i in resp.json() if i["id"] == 28374698347563).__next__()
-        except StopIteration:
-            return None
+        return next((i for i in resp.json() if i["id"] == 7693846457), [])
