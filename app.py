@@ -61,12 +61,8 @@ class Totango:
         )
         for i in resp.json():
             if i["type"] == "note":
-                if (
-                    int(i["note_content"]["note_id"]) == int(touchpoint_id)
-                    and i["note_content"]["text"] == content
-                    and i["properties"]["subject"] == subject
-                ):
-                    return True
+                if int(i["note_content"]["note_id"]) == int(touchpoint_id):
+                    return i
         return False
 
     def create_task(
@@ -101,7 +97,8 @@ class Totango:
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v3/tasks?account_id={account}",
             headers=self.header,
         )
+        # print(resp.json())
         for i in resp.json():
-            if i["id"] == task_id and i["title"] == title:
-                return True
+            if i["id"] == task_id:
+                return i
         return False
