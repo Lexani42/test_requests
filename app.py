@@ -60,7 +60,7 @@ class Totango:
             headers=self.header,
         )
         return next(
-            (i for i in resp.json() if i["type"] == "note" and int(i["note_content"]["note_id"]) == int(touchpoint_id)), [])
+            (i for i in resp.json() if i["type"] == "note" and int(i["note_content"]["note_id"]) == int(touchpoint_id)), {})
 
     def create_task(
         self,
@@ -94,4 +94,4 @@ class Totango:
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v3/tasks?account_id={account}",
             headers=self.header,
         )
-        return next((i for i in resp.json() if i["id"] == 7693846457), [])
+        return next((i for i in resp.json() if i["id"] == task_id), {})
