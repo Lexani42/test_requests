@@ -50,20 +50,24 @@ class Totango:
         )
         touchpoint_id = response.json()["note"]["id"]
         time.sleep(1)
-        return self.check_if_touchpoingt_exist(
-            touchpoint_id, account
-        )
+        return self.check_if_touchpoingt_exist(touchpoint_id, account)
 
-    def check_if_touchpoingt_exist(self, touchpoint_id: int, account: str,):
+    def check_if_touchpoingt_exist(
+        self, touchpoint_id: int, account: str,
+    ):
         resp = self.session.get(
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v2/events/?account_id={account}&include_formatting=true",
             headers=self.header,
         )
-        for i in resp.json():
-            if i["type"] == "note":
-                if int(i["note_content"]["note_id"]) == int(touchpoint_id):
-                    return i
-        return None
+        return (
+            (
+                i
+                for i in resp.json()
+                if i["type"] == "note"
+                and int(i["note_content"]["note_id"]) == int(touchpoint_id)
+            )
+            .__next__()
+        )
 
     def create_task(
         self,
@@ -97,7 +101,4 @@ class Totango:
             f"https://app-test.totango.com/t01/ciklum-automation-demo-230/api/v3/tasks?account_id={account}",
             headers=self.header,
         )
-        for i in resp.json():
-            if i["id"] == task_id:
-                return i
-        return None
+        return (i for i in resp.json() if i["id"] == task_id).__next__()
